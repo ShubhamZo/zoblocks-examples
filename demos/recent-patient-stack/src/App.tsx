@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { RecentPatientStack, type OpenChart } from "@/components/zoblocks/recent-patient-stack";
-
-import "@/styles/zoblocks-tokens.css";
-import "@/styles/zoblocks-workspace.css";
-
+// import "@/styles/zoblocks-tokens.css";
+// import "@/styles/zoblocks-workspace.css";
+import { PatientRoutineExample } from "./examples/patient-routine";
+import { SimilarPatientsExample } from "./examples/similar-patients";
+import { PatientRestrictedExample } from "./examples/patient-restricted";
+import { PatientReassertionExample } from "./examples/patient-reassertion";
 const NOW = "2026-10-06T18:10:00+05:30";
-
 const INITIAL_CHARTS: OpenChart[] = [
   {
     id: "marsh",
@@ -38,10 +39,8 @@ const INITIAL_CHARTS: OpenChart[] = [
     lastActiveAt: "2026-10-06T17:20:00+05:30",
   },
 ];
-
 function App() {
   const [charts, setCharts] = useState<OpenChart[]>(INITIAL_CHARTS);
-
   const handleActivate = (chart: OpenChart) => {
     setCharts((current) =>
       current.map((item) =>
@@ -54,34 +53,37 @@ function App() {
       ),
     );
   };
-
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "grid",
-        placeItems: "center",
-        padding: "32px",
-        background: "var(--zb-bg-subtle)",
-        fontFamily: "var(--zb-font-sans)",
-        boxSizing: "border-box",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "420px",
-          padding: "28px",
-          border: "1px solid var(--zb-border)",
-          borderRadius: "var(--zb-radius-lg)",
-          background: "var(--zb-surface)",
-          boxSizing: "border-box",
-        }}
-      >
+    <main className="min-h-screen w-full flex flex-col items-center gap-8 p-6">
+      {/* Original Recent Patient Stack */}
+      <section className="w-full max-w-3xl flex items-center justify-center p-6">
         <RecentPatientStack charts={charts} now={NOW} onActivate={handleActivate} />
-      </div>
+      </section>
+      {/* Example 1: Patient Routine */}
+      <section className="w-full max-w-3xl flex items-center justify-center p-6">
+        <div className="w-full">
+          <PatientRoutineExample />
+        </div>
+      </section>
+      {/* Example 2: Similar Patients */}
+      <section className="w-full max-w-3xl flex items-center justify-center p-6">
+        <div className="w-full">
+          <SimilarPatientsExample />
+        </div>
+      </section>
+      {/* Example 3: Closing is graded, not binary */}
+      <section className="w-full max-w-3xl flex items-center justify-center p-6">
+        <div className="w-full">
+          <PatientRestrictedExample />
+        </div>
+      </section>
+      {/* Example 4: Coming back re-asserts who the chart belongs to */}
+      <section className="w-full max-w-3xl flex items-center justify-center p-6">
+        <div className="w-full">
+          <PatientReassertionExample />
+        </div>
+      </section>
     </main>
   );
 }
-
 export default App;
